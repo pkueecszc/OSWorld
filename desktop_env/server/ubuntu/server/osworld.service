@@ -1,0 +1,17 @@
+[Unit]
+Description=osworld service
+StartLimitIntervalSec=60
+StartLimitBurst=4
+After=network.target auditd.service gdm.service
+
+[Service]
+ExecStartPre=/usr/bin/xhost +SI:localuser:user
+ExecStart=/usr/bin/python /home/user/vm_control_server/ubuntu/server/main.py
+User=user
+WorkingDirectory=/home/user
+Environment="DISPLAY=:0"
+Restart=always
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target
