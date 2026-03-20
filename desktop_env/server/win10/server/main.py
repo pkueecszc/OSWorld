@@ -37,6 +37,21 @@ import win32ui, win32gui
 Accessible = Any
 
 from pyxcursor import Xcursor
+from gui.handlers import (
+    exec_gui_click,
+    exec_gui_drag,
+    exec_gui_left_double,
+    exec_gui_right_single,
+    exec_gui_scroll,
+    exec_gui_move_to,
+    exec_gui_mouse_down,
+    exec_gui_mouse_up,
+    exec_gui_type,
+    exec_gui_hotkey,
+    exec_gui_press,
+    exec_gui_release,
+    exec_gui_wait,
+)
 
 # todo: need to reformat and organize this whole file
 
@@ -50,6 +65,89 @@ recording_process = None  # fixme: this is a temporary solution for recording, n
 recording_path = "C:/Users/User/OSWorld/desktop_env/server/recording.mp4"
 
 last_cmd_info = {"output": "", "exit_code": 0}
+
+
+def _get_gui_data() -> Dict[str, Any]:
+    data = request.get_json(silent=True)
+    return data if isinstance(data, dict) else {}
+
+
+@app.route("/gui/click", methods=["POST"])
+def gui_click():
+    resp, status = exec_gui_click(_get_gui_data())
+    return jsonify(resp), status
+
+
+@app.route("/gui/drag", methods=["POST"])
+def gui_drag():
+    resp, status = exec_gui_drag(_get_gui_data())
+    return jsonify(resp), status
+
+
+@app.route("/gui/left_double", methods=["POST"])
+def gui_left_double():
+    resp, status = exec_gui_left_double(_get_gui_data())
+    return jsonify(resp), status
+
+
+@app.route("/gui/right_single", methods=["POST"])
+def gui_right_single():
+    resp, status = exec_gui_right_single(_get_gui_data())
+    return jsonify(resp), status
+
+
+@app.route("/gui/scroll", methods=["POST"])
+def gui_scroll():
+    resp, status = exec_gui_scroll(_get_gui_data())
+    return jsonify(resp), status
+
+
+@app.route("/gui/move_to", methods=["POST"])
+def gui_move_to():
+    resp, status = exec_gui_move_to(_get_gui_data())
+    return jsonify(resp), status
+
+
+@app.route("/gui/mouse_down", methods=["POST"])
+def gui_mouse_down():
+    resp, status = exec_gui_mouse_down(_get_gui_data())
+    return jsonify(resp), status
+
+
+@app.route("/gui/mouse_up", methods=["POST"])
+def gui_mouse_up():
+    resp, status = exec_gui_mouse_up(_get_gui_data())
+    return jsonify(resp), status
+
+
+@app.route("/gui/type", methods=["POST"])
+def gui_type():
+    resp, status = exec_gui_type(_get_gui_data())
+    return jsonify(resp), status
+
+
+@app.route("/gui/hotkey", methods=["POST"])
+def gui_hotkey():
+    resp, status = exec_gui_hotkey(_get_gui_data())
+    return jsonify(resp), status
+
+
+@app.route("/gui/press", methods=["POST"])
+def gui_press():
+    resp, status = exec_gui_press(_get_gui_data())
+    return jsonify(resp), status
+
+
+@app.route("/gui/release", methods=["POST"])
+def gui_release():
+    resp, status = exec_gui_release(_get_gui_data())
+    return jsonify(resp), status
+
+
+@app.route("/gui/wait", methods=["POST"])
+def gui_wait():
+    resp, status = exec_gui_wait(_get_gui_data())
+    return jsonify(resp), status
 
 
 def _do_execute(command: List[str] | str, shell: bool = False):
